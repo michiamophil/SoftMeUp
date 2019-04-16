@@ -85,7 +85,7 @@ void initVariables(){
 	
 	if(sign != SIGNVAL){ // Se non é inizializzata la inizializzo
 		Serial.println("INITIALIZE System Variables with default values...");
-		sv = t_sveglia{0, 8, 30, "FAILSAFE", 1, 5, 1};
+		sv = t_sveglia{0, 8, 00, "FAILSAFE", 4, 4, 1};
 		pwd = 1234;
 		push(ALARM); push(PWD); push(SIGNATURE);
 	} else { // se é inizializzata ripristino lo stato precedente delle variabili
@@ -104,8 +104,8 @@ void globalVariablesDump(){
 	Serial.print("Attiva: "); Serial.println((sv.active == 1) ? "SI" : "NO");
 	Serial.print("Ora: "); Serial.print(sv.ora,DEC); Serial.print(":"); Serial.println(sv.min,DEC);
 	Serial.print("Canzone: "); Serial.print(sv.canzone); Serial.print(".wav  Volume: "); Serial.println(sv.volume,DEC);
-	Serial.print("Vibrazione: "); Serial.println((sv.vibrazione == 1) ? "SI" : "NO");
-	Serial.print("Fragranza: "); Serial.println((sv.fragranza == 1) ? "SI" : "NO");
+	Serial.print("Vibrazione: "); Serial.println((sv.vibrazione == 0) ? "NO" : "SI");
+	Serial.print("Fragranza: "); Serial.println((sv.fragranza == 0) ? "NO" : "SI");
 	Serial.println("");
 	Serial.println("===========Password==========");
 	Serial.print("Pwd: ");Serial.println(pwd);
