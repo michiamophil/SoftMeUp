@@ -22,13 +22,13 @@
 //=DO NOT MODIFY====
 #define SIGNADDR 2
 #define ALARMADDR 10
-#define PWDADDR 24
+#define PWDADDR 25
 
 #define PWD 0
 #define ALARM 1
 #define SIGNATURE 2
 
-#define SIGNVAL 17569
+#define SIGNVAL 17589
 //==================
 
 typedef struct sveglia{
@@ -38,9 +38,10 @@ typedef struct sveglia{
 	char canzone[9];
 	char vibrazione;
 	char volume;
+	char fragranza;
 } t_sveglia;
 
-t_sveglia sv;// = { 0, 0, 0, "FAILSAFE", 2, 3};
+t_sveglia sv;// = { 0, 0, 0, "FAILSAFE", 2, 3, 1};
 
 
 unsigned int pwd; // Password usata per connettersi col bluetooth al device.. Default: 1234
@@ -84,7 +85,7 @@ void initVariables(){
 	
 	if(sign != SIGNVAL){ // Se non é inizializzata la inizializzo
 		Serial.println("INITIALIZE System Variables with default values...");
-		sv = t_sveglia{0, 8, 30, "FAILSAFE", 1, 5};
+		sv = t_sveglia{0, 8, 30, "FAILSAFE", 1, 5, 1};
 		pwd = 1234;
 		push(ALARM); push(PWD); push(SIGNATURE);
 	} else { // se é inizializzata ripristino lo stato precedente delle variabili
@@ -104,6 +105,7 @@ void globalVariablesDump(){
 	Serial.print("Ora: "); Serial.print(sv.ora,DEC); Serial.print(":"); Serial.println(sv.min,DEC);
 	Serial.print("Canzone: "); Serial.print(sv.canzone); Serial.print(".wav  Volume: "); Serial.println(sv.volume,DEC);
 	Serial.print("Vibrazione: "); Serial.println((sv.vibrazione == 1) ? "SI" : "NO");
+	Serial.print("Fragranza: "); Serial.println((sv.fragranza == 1) ? "SI" : "NO");
 	Serial.println("");
 	Serial.println("===========Password==========");
 	Serial.print("Pwd: ");Serial.println(pwd);
