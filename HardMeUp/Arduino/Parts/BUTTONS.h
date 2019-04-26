@@ -24,16 +24,16 @@ extern t_sveglia sv;
 void button1SnoozeHandle(AceButton* /* button */, uint8_t eventType,
     uint8_t /* buttonState */) {
   switch (eventType) {
-	 case AceButton::kEventLongPressed:
-	{
-		if(snoozeIsPending){ // La pressione prolungata del bottone in snooze state disattiva la sveglia
-			Serial << "LONG PRESS (SNOOZE STATE) - disattivo la sveglia\n";
-			snoozeIsPending = false;
-			initializeRTCAlarms(); // rimuovo la sveglia
-			alarmRoutineAlarmEXIT();
-		}
-		break;
-	}
+	 //~ case AceButton::kEventLongPressed:
+	//~ {
+		//~ if(snoozeIsPending){ // La pressione prolungata del bottone in snooze state disattiva la sveglia
+			//~ Serial << "LONG PRESS (SNOOZE STATE) - disattivo la sveglia\n";
+			//~ snoozeIsPending = false;
+			//~ initializeRTCAlarms(); // rimuovo la sveglia
+			//~ alarmRoutineAlarmEXIT();
+		//~ }
+		//~ break;
+	//~ }
     case AceButton::kEventPressed: {
       //Serial << "Bottone Rilasciato";
       //Serial.println();
