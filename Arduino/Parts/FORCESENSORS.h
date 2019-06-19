@@ -1,9 +1,9 @@
 #define STANDBYTIME 20000 //20*1000 Tempo di standby 20 secondi
-#define FORCETHRESHOLD 550
+//#define FORCETHRESHOLD 200
 #define NOISEPRESSUREPHASE1 5
 #define NOISEPRESSUREPHASE2 100 // ammette un limite al rumore maggiore perché valuta un numero di iterazioni di molto maggiore
 
-#include <Streaming.h> 
+//#include <Streaming.h> 
 
 // Il file fornisce un'implementazione trasparente alla routine alarmRoutine() sul sensore di forza che l'utente usa, sia che sia il primo, che il secondo.
 // il primo sará disposto in alto e il secondo in basso, entrambi fanno il giro del cuscino su entrambi i lati
@@ -26,25 +26,27 @@
 
 extern void alarmOff();
 extern void alarmOn();
+extern void BPrint(String msg);
+extern unsigned int threshold1, threshold2;
 
 unsigned long nowTimeForThreshold; // settata come variabile globale invece che locale per evitare di istanziarla all'interno di forceSensorPressionCheck()
 // per rendere piu veloce il codice di check del sensore di forza
 
 // integra un controllo del rumore
-int noiseCounter = 0;
+int noiseCounter;
 
 int forceCheck(int pin){
 	// DEBUG
 	//Serial << analogRead(pin);
 	//Serial.println();
 	
-	return analogRead(pin);
+	return (analogRead(pin)* 5.0 / 1023.0 * 19.5);
 }
 
 bool forceSensorPressionCheck(){
 	// si controlla subito se ce pressione e in caso si esce subito
 	// (maggior parte dei casi in cui viene chiamata)
-	if( forceCheck(FORCE1PIN) > FORCETHRESHOLD || forceCheck(FORCE2PIN) > FORCETHRESHOLD ){
+	if( forceCheck(FORCE1PIN) > threshold1 || forceCheck(FORCE2PIN) > threshold2 ){
 		noiseCounter = 0;
 		return true;
 	} else {
@@ -63,8 +65,8 @@ bool forceSensorPressionCheck(){
 		nowTimeForThreshold = millis();
 		
 		alarmOff(); // sospende momentaneamente la sveglia
+		BPrint("No Press.");
 		
-		Serial << "Si é alzata la testa\n";
 		//=====================================================================================================================================================
 		// ATTENZIONE: l'arduino d'ora in poi entra in uno stato di FREEZE, non verrá controllata alcuna pressione del bottone ne comunicazione bluetooth
 		//				é bene che il tempo STANDBYTIME non sia aumentato troppo
@@ -72,7 +74,7 @@ bool forceSensorPressionCheck(){
 		noiseCounter = 0; // controllo del rumore anche per verificare che non si verifichi un falso positivo (riuso lo stesso contatore)
 		while(pressionIsNotPresent){
 			
-			if( forceCheck(FORCE1PIN) > FORCETHRESHOLD || forceCheck(FORCE2PIN) > FORCETHRESHOLD ){
+			if( forceCheck(FORCE1PIN) > threshold1 || forceCheck(FORCE2PIN) > threshold2 ){
 				noiseCounter++;
 			}
 			
@@ -83,7 +85,7 @@ bool forceSensorPressionCheck(){
 			// in soldoni lascia scegliere ad alarmRoutine() che azione intraprendere automaticamente
 			
 			if (noiseCounter > NOISEPRESSUREPHASE2) {
-				Serial << "Ma ora é di nuovo sul cuscino..!\n";
+				BPrint("Si Press.");
 				alarmOn();
 				return true;
 			}
@@ -101,6 +103,6 @@ bool forceSensorPressionCheck(){
 	}
 	
 	
-	
 }
+
 

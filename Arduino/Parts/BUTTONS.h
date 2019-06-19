@@ -1,7 +1,7 @@
 #define LONGPRESSDELAY 3000
 
 #include <AceButton.h>
-#include <Streaming.h>  
+//#include <Streaming.h>  
 //#include "PINS.H"
 
 using namespace ace_button;
@@ -16,6 +16,7 @@ extern void alarmRoutineAlarmSnooze();
 extern void alarmRoutineAlarmEXIT();
 extern void bluetoothChangeState();
 extern void initializeRTCAlarms();
+extern void BPrint(String msg);
 
 extern t_sveglia sv; 
 
@@ -45,8 +46,7 @@ void button1SnoozeHandle(AceButton* /* button */, uint8_t eventType,
 		break;
 	}
     case AceButton::kEventReleased: {
-      Serial << "Bottone Premuto (SNOOZE STATE)";
-      Serial.println();
+      BPrint("N8");
       break;
 	}
   }
@@ -58,10 +58,10 @@ void button1HardHandle(AceButton* /* button */, uint8_t eventType,
     case AceButton::kEventLongPressed:
 	{
 			if(settingsButtonHardStateLongPressOn){
-				Serial << "LONG PRESS (HARD MODE STATE) - disattivo la sveglia\n";
+				//Serial << "LONG PRESS (HARD MODE STATE) - disattivo la sveglia\n";
 				alarmRoutineAlarmEXIT();
 			} else {				
-				Serial << "Impostazione disabilitata\n";
+				//Serial << "Impostazione disabilitata\n";
 			}
 			break;
 	}
@@ -75,15 +75,15 @@ void button1GenericHandle(AceButton* /* button */, uint8_t eventType,
       //Serial << "Bottone Premuto 1 (GENERIC STATE)\n";
       //break;
 	case AceButton::kEventReleased:
-		Serial << "Bottone Premuto (GENERIC STATE)\n";
+		BPrint("N9");
 		bluetoothChangeState();
 		break;
   }
 }
 
 void initButton1(){
-	button1.setEventHandler(button1GenericHandle);
 	
+	button1.setEventHandler(button1GenericHandle);
 	ButtonConfig* config = button1.getButtonConfig();
 	config->setFeature(ButtonConfig::kFeatureLongPress);
 	//ButtonConfig::setFeature(kFeatureLongPress);

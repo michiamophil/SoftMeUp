@@ -1,25 +1,34 @@
 //========PINS TABLE========
 
 // DIGITAL
-#define BTRXPIN 2
-#define CLOCKPIN 3
-#define BTTXPIN 4 // non collegarlo al bluetooth
-#define BUTTON1PIN 7
-#define BTVCCPIN 8
-#define MOTORSPIN 11
-#define LIGHTSPIN 10
+
+// PIN 2 SDA
+// PIN 3 SCL
+#define CLOCKPIN 4 // SQW RTC
+
+#define BUTTON1PIN 5
+
+#define BTSTATUSVCCPIN 7
+
+#define BTRXPIN 8 // RDD del bluetooth con voltage divider
+#define BTTXPIN 9
+
+#define BTVCCPIN 10 // VCC BLUETOOTH
+#define LIGHTSPIN 11
+#define MOTORSPIN 12
+
 
 //ANALOG
-#define FORCE1PIN A2
-#define FORCE2PIN A3
+#define FORCE1PIN A5	// IT HAS RELATED THRESHOLD1
+#define FORCE2PIN A4	// IT HAS RELATED THRESHOLD2
+
 
 // for further informations see the sketch (../Circuit.png)
 //==========================
-
-
 void setPins(){
 	// BLUETOOTH
 	pinMode(BTVCCPIN, OUTPUT);
+	pinMode(BTSTATUSVCCPIN, OUTPUT);
 	
 	// RTC
 	pinMode(CLOCKPIN, INPUT_PULLUP);
@@ -31,5 +40,5 @@ void setPins(){
 	pinMode(MOTORSPIN, OUTPUT);
 	
 	// LUCI
-	pinMode(LIGHTSPIN, OUTPUT); // (si possono usare anche come luci di stato, opzione da attivare tramite impostazione globale da app)
+	pinMode(LIGHTSPIN, OUTPUT); 
 }

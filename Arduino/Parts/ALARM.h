@@ -3,45 +3,41 @@
 
 extern void motorsOn();
 extern void motorsOff();
+extern void motorsChangeState();
+
 extern void lightsOn();
 extern void lightsOff();
+extern void lightsChangeState();
+
 extern bool forceSensorPressionCheck();
 extern void setRTCInterruptAlarm();
 extern int noiseCounter;
+extern void BPrint(String msg);
+extern void BPrintDec(int n);
+extern void BPrintNoNl(String msg);
+extern void printTime(time_t t);
 
-bool alarmIsOn = false;
+bool alarmIsOn;
 
 unsigned long alarmDurationCheck;
-bool snoozeIsPending = false;
+bool snoozeIsPending;
 
 
 
 void alarmSetFromSettings(){
 		if(sv.thisAlarmIsActive){
-			setRTCInterruptAlarm(sv.ora, sv.min);
+			setRTCInterruptAlarm(sv.ora, sv.min, 0);
 		}
 }
 
 void alarmOn(){
-	
-	if(sv.vibrazione){
-			motorsOn();
-		}
-		
-	if(sv.luci){
-			lightsOn();
-		}
+	motorsOn();
+	lightsOn();
 }
 
 void alarmOff(){
-	
-	if(sv.vibrazione){
-			motorsOff();
-		}
-		
-	if(sv.luci){
-			lightsOff();
-		}
+	motorsOff();
+	lightsOff();
 }
 
 void alarmRoutineSetNewAlarm(){
@@ -51,10 +47,9 @@ void alarmRoutineSetNewAlarm(){
 	}
 	// DEBUG
 	printTime(RTC.get());
-	Serial << "La prossima sveglia suona tra " << (int) sv.snooseTimer << " min\n";
-	Serial << "(Snooze rimasti: " << (int) sv.snoozeCount << ")\n"; 
+	BPrintNoNl("N7 "); BPrintDec((int) sv.snooseTimer); BPrintNoNl(" - ");BPrintDec((int) sv.snoozeCount); BPrint("");
 	
-	setRTCInterruptAlarm(hour(tm), minute(tm) + (int)sv.snooseTimer);
+	setRTCInterruptAlarm(hour(tm), minute(tm) + (int)sv.snooseTimer, second(tm));
 }
 
 
@@ -70,7 +65,7 @@ void alarmRoutineAlarmSnooze(){
 // Richiamata dal bottone (STATO HARD PRESSIONE LUNGA) SNOOZE solo su impostazione app? in caso é facile da aggiungere
 void alarmRoutineAlarmEXIT(){
 	// Viene chiamata questa funzione solamente quando siamo sicuri che l'utente si é svegliato
-	Serial << "=======Alarm EXIT!=======\n";
+	BPrint("Alarm EXIT\n");
 	alarmOff();
 	button1.setEventHandler(button1GenericHandle);
 	alarmIsOn = false;
@@ -82,7 +77,7 @@ void alarmRoutine(){
 	// Controllo se l'RTC genera l'evento ALARM
 	if (!digitalRead(CLOCKPIN)){
 		
-		Serial << "Sveglia Attivata!\n"; // DEBUG
+		BPrint("Alarm"); // DEBUG
 		
 		alarmIsOn = true;
 		snoozeIsPending = false;
@@ -113,7 +108,12 @@ void alarmRoutine(){
 		if(forceSensorPressionCheck() == false){	// Se non cé stata pressione sul cuscino per un periodo di tempo (FORCETHRESHOLD, definita in FORCESENSORS)
 			// allora vuol dire che la persona si é svegliata ed esco dalla routine
 			alarmRoutineAlarmEXIT();
+			return;
 		};
+		
+		
+		motorsChangeState();
+		lightsChangeState();
 	}
 	
 }

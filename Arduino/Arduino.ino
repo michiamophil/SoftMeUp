@@ -16,14 +16,30 @@
 // in MOTOR.H e LIGHTS.H usare una tensione variabile invece che un HIGH LOW
 // Inoltre in futuro per far funzionare i componenti del cuscino é necessario usare transistor IRL
 
-// Cé la predisposizione per poter settare una password, serve settare una password?
+// Cé la predisposizione per poter settare una password, serve settare una password? (12/06/19) NO
 
 // da implementare: If snoozeIsPending -> longPress on Button (GENERIC STATE) will exit from alarm.
 //================================
 
+
+void initGlobalVariables(){
+	// ALARM.H
+	alarmIsOn = false;
+	snoozeIsPending = false;
+	
+	// BLUETOOTH.H
+	bluetoothIsActive = false;
+	
+	// FORCESENSORS.H
+	noiseCounter = 0;
+
+}
+
 void setup(){
-	Serial.begin(SERIALBAUD); while (!Serial) {;}
-  
+
+
+	initGlobalVariables();
+	
 	setPins();
 	initVariables();
 	
@@ -33,8 +49,8 @@ void setup(){
   
 	// IMPORTANTE initVariables() deve essere eseguito prima di initRTC()
 	initRTC(); // inizializza L'RTC e imposta la sveglia se é presente nei dati della EEPROM
-}
 
+}
 
 void loop()
 {
@@ -45,6 +61,5 @@ void loop()
 	
 	bluetoothCheck();
 }
-
 
 
