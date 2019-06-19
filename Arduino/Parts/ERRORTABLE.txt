@@ -1,0 +1,31 @@
+// BLUETOOTH.H
+E1 - ERRORE (BT): codice iniziale pacchetto errato.. ABORTING!
+E2 - EVENT (BT): pacchetto ricevuto!
+E3 - ERRORE (BT): ho ricevuto una stringa errata!
+
+N1 - Sveglia settata con successo!
+N2 - Impostazioni globali settate con successo!
+N3 - Nuovo orario ricevuto dall'applicazione e settato con successo
+N4 - Accendo e inizializzo il bluetooth
+N5 - Spengo il bluetooth
+
+
+// ALARM.H
+N6 - Sveglia Attivata!
+N7 - (output: N7 X Y): La prossima sveglia suona tra X min, Snooze rimasti Y 
+
+// BUTTONS>H
+N8 - Bottone Premuto (SNOOZE STATE)
+N9 - Bottone Premuto (GENERIC STATE)
+
+// FORCESENSORS.H
+N10 - Si é alzata la testa
+N11 - Ma ora é di nuovo sul cuscino..!
+
+// RTCLIB.H
+E4 - RTC Inizializzazione fallita!
+
+// VARSLIB.H
+N12 - INITIALIZE System Variables with default values...
+N13 - RESUME System Variables from EEPROM to RAM...
+N14 - (output N14 X Y Z W): Sveglia. X:attiva? Y:ora Z:intensitá luci W:intensitá vibrazione
