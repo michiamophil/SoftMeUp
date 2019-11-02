@@ -9,7 +9,7 @@ You can see the video of the final prototype here:
 
 ## Images
 
-![IMG 4](https://github.com/michiamophil/SoftMeUp/blob/master/media/4.jpg)
+![IMG 4](https://github.com/michiamophil/SoftMeUp/blob/master/media/4.jpeg)
 ![IMG 5](https://github.com/michiamophil/SoftMeUp/blob/master/media/5.jpg)
 ![IMG 1](https://github.com/michiamophil/SoftMeUp/blob/master/media/1.jpg)
 ![IMG 2](https://github.com/michiamophil/SoftMeUp/blob/master/media/2.jpg)
